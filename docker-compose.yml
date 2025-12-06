@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "5001:5001"
+    environment:
+      - PORT=5001
+      - FIRESTORE_EMULATOR_HOST=firestore-emulator:8080
+      - FIREBASE_AUTH_EMULATOR_HOST=auth-emulator:9099
+      - GCLOUD_PROJECT=demo-project
+    depends_on:
+      - firestore-emulator
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:5000/api
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+  firestore-emulator:
+    image: google/cloud-sdk:stable
+    ports:
+      - "8080:8080"
+      - "9099:9099"
+      - "4000:4000"
+    command: gcloud emulators firestore start --host-port=0.0.0.0:8080
