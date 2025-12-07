@@ -295,7 +295,9 @@ app.post('/api/settlements', async (req, res) => {
 
 app.get('/api/debug-info', (req, res) => {
     try {
-        const sa = require('./serviceAccountKey.json');
+        let sa = {};
+        try { sa = require('./serviceAccountKey.json'); } catch(e) { sa = { project_id: 'env-var', client_email: 'env-var' }; }
+        
         res.json({
             time: new Date().toISOString(),
             env_project_id: process.env.FIREBASE_PROJECT_ID,
