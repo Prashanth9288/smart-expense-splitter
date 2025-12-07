@@ -11,7 +11,6 @@ const db = getFirestore();
 async function testQuery() {
     try {
         console.log("Testing Expenses Query...");
-        // Use a dummy ID or one we saw in logs: 18412901-61b5-4ecb-a0ec-a56be0ccf19f
         const groupId = '18412901-61b5-4ecb-a0ec-a56be0ccf19f'; 
         
         const snapshot = await db.collection('expenses')
