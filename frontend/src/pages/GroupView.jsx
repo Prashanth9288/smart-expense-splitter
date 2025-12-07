@@ -40,9 +40,9 @@ const GroupView = () => {
   }, [id, token]);
 
   return (
-    <div className="animate-fade-in">
+    <div className="animate-fade-in flex-col" style={{ gap: '2rem' }}>
         <div className="header">
-            <Link to="/" style={{ color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: '5px' }}>
+            <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '600' }}>
                 <span>&larr;</span> Back
             </Link>
             <span className="logo" style={{ fontSize: '1.2rem' }}>Details</span>
@@ -51,32 +51,33 @@ const GroupView = () => {
             </Link>
         </div>
 
-        <div className="container" style={{ padding: '0 2rem', display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '2rem' }}>
+        <div className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '2rem', alignItems: 'start' }}>
             
             <div className="glass-card stagger-1" style={{ height: 'fit-content' }}>
-                <div className="flex justify-between items-center" style={{ marginBottom: '1.5rem', borderBottom: '1px solid var(--glass-border)', paddingBottom: '1rem' }}>
-                    <h3 style={{ margin: 0 }}>Balances</h3>
-                    <Link to={`/groups/${id}/simplify`} style={{ fontSize: '0.8rem', color: 'var(--primary)' }}>Settle Up</Link>
+                <div className="flex justify-between items-center" style={{ marginBottom: '1.5rem', borderBottom: '1px solid var(--border)', paddingBottom: '1rem' }}>
+                    <h4 style={{ margin: 0 }}>Current Balances</h4>
+                    <Link to={`/groups/${id}/simplify`} style={{ fontSize: '0.9rem', color: 'var(--primary)', fontWeight: '700' }}>Settle Up &rarr;</Link>
                 </div>
                 
-                {balances.length === 0 && <p style={{ color: 'var(--text-secondary)' }}>No balances. All settled!</p>}
+                {balances.length === 0 && <p style={{ color: 'var(--text-muted)' }}>No balances. All settled!</p>}
                 
-                <ul style={{ margin: 0, padding: 0 }}>
+                <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
                     {balances.map(b => (
-                    <li key={b.user.id} style={{ padding: '10px 0', borderBottom: '1px solid rgba(0,0,0,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <li key={b.user.id} style={{ padding: '12px 0', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                         <div className="flex items-center">
                             <div style={{ 
-                                width: '36px', height: '36px', 
-                                background: 'linear-gradient(135deg, #e0f7fa 0%, #80deea 100%)', 
-                                color: '#006064',
-                                borderRadius: '50%', marginRight: '10px', 
-                                display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' 
+                                width: '40px', height: '40px', 
+                                background: 'linear-gradient(135deg, var(--secondary) 0%, #818cf8 100%)', 
+                                color: '#fff',
+                                borderRadius: '50%', marginRight: '12px', 
+                                display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '800', fontSize: '1.1rem',
+                                boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
                             }}>
                                 {b.user.name.charAt(0)}
                             </div>
-                            <span style={{ fontWeight: '500' }}>{b.user.name}</span>
+                            <span style={{ fontWeight: '600' }}>{b.user.name}</span>
                         </div>
-                        <span style={{ fontWeight: '700', color: b.net_cents >= 0 ? 'var(--success)' : 'var(--danger)' }}>
+                        <span style={{ fontWeight: '700', fontSize: '1.1rem', color: b.net_cents >= 0 ? 'var(--success)' : 'var(--danger)', textShadow: '0 0 10px rgba(0,0,0,0.2)' }}>
                             {b.net_cents > 0 ? `+ $${b.net}` : `- $${b.net.replace('-', '')}`}
                         </span>
                     </li>
@@ -85,23 +86,23 @@ const GroupView = () => {
             </div>
 
             <div className="stagger-2">
-                <h3 style={{ marginTop: 0, marginBottom: '1rem' }}>Recent Activity</h3>
-                {expenses.length === 0 ? <p style={{ color: 'var(--text-secondary)' }}>No expenses yet.</p> : (
-                    <ul style={{ padding: 0 }}>
+                <h3 style={{ marginTop: 0, marginBottom: '1.5rem' }}>Recent Activity</h3>
+                {expenses.length === 0 ? <p style={{ color: 'var(--text-muted)' }}>No expenses yet.</p> : (
+                    <ul style={{ padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                         {expenses.map((e, i) => (
-                        <li key={e.id} className="glass-card" style={{ padding: '1rem', marginBottom: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', animationDelay: `${i * 0.05}s` }}>
+                        <li key={e.id} className="glass-card" style={{ padding: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', animationDelay: `${i * 0.05}s`, transition: 'transform 0.2s' }}>
                             <div className="flex items-center">
-                                <div style={{ fontSize: '1.5rem', marginRight: '1rem', opacity: 0.8 }}>🧾</div>
-                                <div className="flex-col" style={{ gap: '2px' }}>
-                                    <strong style={{ fontSize: '1.1rem' }}>{e.description}</strong>
-                                    <small style={{ color: 'var(--text-secondary)' }}>
-                                        {e.payer_user_id === user.uid ? 'You' : 'Someone'} paid <span style={{ fontWeight: 'bold', color: 'var(--text-main)' }}>${e.total_amount}</span>
+                                <div style={{ fontSize: '2rem', marginRight: '1.5rem', opacity: 0.8, filter: 'drop-shadow(0 0 5px rgba(255,255,255,0.2))' }}>🧾</div>
+                                <div className="flex-col" style={{ gap: '4px' }}>
+                                    <strong style={{ fontSize: '1.25rem' }}>{e.description}</strong>
+                                    <small style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+                                        <span style={{ color: 'var(--primary)' }}>{e.payer_user_id === user.uid ? 'You' : 'Someone'}</span> paid <span style={{ fontWeight: '700', color: 'var(--text-main)' }}>${e.total_amount}</span>
                                     </small>
                                 </div>
                             </div>
                             <div style={{ textAlign: 'right' }}>
-                                <span style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>${e.total_amount}</span>
-                                <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Total</div>
+                                <span style={{ fontWeight: '800', fontSize: '1.5rem', color: 'var(--text-main)' }}>${e.total_amount}</span>
+                                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Total</div>
                             </div>
                         </li>
                         ))}

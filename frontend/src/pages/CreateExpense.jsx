@@ -59,50 +59,56 @@ const CreateExpense = () => {
     };
 
     return (
-        <div className="animate-fade-in">
+        <div className="animate-fade-in flex-col" style={{ gap: '2rem' }}>
             <div className="header">
-                 <Link to={`/groups/${id}`} style={{ color: 'var(--text-main)' }}>Cancel</Link>
-                 <span className="logo" style={{ fontSize: '1.2rem' }}>Add Expense</span>
+                 <Link to={`/groups/${id}`} style={{ color: 'var(--text-muted)' }}>Cancel</Link>
+                 <span className="logo" style={{ fontSize: '1.25rem' }}>Add Expense</span>
                  <span style={{ width: '50px' }}></span> 
             </div>
-            <div className="container" style={{ maxWidth: '600px', margin: '0 auto' }}>
-                <div className="glass-card">
-                    <form onSubmit={handleSubmit} className="flex-col" style={{ gap: '1.5rem' }}>
+            <div className="container" style={{ maxWidth: '600px', margin: '0 auto', width: '100%' }}>
+                <div className="glass-card stagger-1">
+                    <form onSubmit={handleSubmit} className="flex-col" style={{ gap: '2rem' }}>
                         
-                        <div className="flex items-center" style={{ borderBottom: '2px solid var(--glass-border)', paddingBottom: '0.5rem' }}>
-                            <span style={{ fontSize: '1.5rem', marginRight: '1rem' }}>📝</span>
-                            <input 
-                                placeholder="Enter a description" 
-                                value={desc} 
-                                onChange={e => setDesc(e.target.value)} 
-                                required 
-                                style={{ 
-                                    border: 'none', background: 'transparent', fontSize: '1.2rem', 
-                                    margin: 0, padding: '0.5rem', fontWeight: '500' 
-                                }}
-                            />
+                        <div style={{ borderBottom: '1px solid var(--border)', paddingBottom: '0.5rem' }}>
+                            <div className="flex items-center">
+                                <span style={{ fontSize: '1.5rem', marginRight: '1rem' }}>📝</span>
+                                <input 
+                                    placeholder="What was this for?" 
+                                    value={desc} 
+                                    onChange={e => setDesc(e.target.value)} 
+                                    required 
+                                    style={{ 
+                                        border: 'none', background: 'transparent', fontSize: '1.5rem', 
+                                        margin: 0, padding: '0.5rem', fontWeight: '600', width: '100%',
+                                        boxShadow: 'none'
+                                    }}
+                                />
+                            </div>
                         </div>
 
-                        <div className="flex items-center" style={{ borderBottom: '2px solid var(--glass-border)', paddingBottom: '0.5rem' }}>
-                            <span style={{ fontSize: '1.5rem', marginRight: '1rem', width: '30px', textAlign: 'center' }}>$</span>
-                            <input 
-                                type="number" 
-                                step="0.01" 
-                                placeholder="0.00"
-                                value={amount} 
-                                onChange={e => setAmount(e.target.value)} 
-                                required 
-                                style={{ 
-                                    border: 'none', background: 'transparent', fontSize: '2rem', 
-                                    margin: 0, padding: '0.5rem', fontWeight: 'bold' 
-                                }}
-                            />
+                        <div style={{ borderBottom: '1px solid var(--border)', paddingBottom: '0.5rem' }}>
+                            <div className="flex items-center">
+                                <span style={{ fontSize: '1.5rem', marginRight: '1rem', width: '30px', textAlign: 'center', color: 'var(--success)' }}>$</span>
+                                <input 
+                                    type="number" 
+                                    step="0.01" 
+                                    placeholder="0.00"
+                                    value={amount} 
+                                    onChange={e => setAmount(e.target.value)} 
+                                    required 
+                                    style={{ 
+                                        border: 'none', background: 'transparent', fontSize: '2.5rem', 
+                                        margin: 0, padding: '0.5rem', fontWeight: '800', width: '100%',
+                                        color: 'var(--success)', boxShadow: 'none'
+                                    }}
+                                />
+                            </div>
                         </div>
 
-                        <div className="flex gap-4" style={{ marginTop: '1rem' }}>
+                        <div className="flex gap-4">
                             <div style={{ flex: 1 }}>
-                                <label style={{ fontWeight: '600', display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>SPLIT METHOD</label>
-                                <select value={splitType} onChange={e => setSplitType(e.target.value)} style={{ background: 'rgba(255,255,255,0.8)' }}>
+                                <label style={{ fontWeight: '700', fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Split Method</label>
+                                <select value={splitType} onChange={e => setSplitType(e.target.value)} style={{ fontSize: '1.1rem', fontWeight: '500' }}>
                                     <option value="EQUAL">Split Equally (=)</option>
                                     <option value="PERCENT">Split by Percent (%)</option>
                                     <option value="EXACT">Split by Exact Amounts ($)</option>
@@ -111,19 +117,18 @@ const CreateExpense = () => {
                         </div>
                         
                         <div>
-                             <label style={{ fontWeight: '600', display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>PARTICIPANTS</label>
+                             <label style={{ fontWeight: '700', fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Participants (User IDs)</label>
                              <input 
                                 value={memberIdsInput} 
                                 onChange={e => setMemberIdsInput(e.target.value)} 
                                 placeholder="Enter friend UIDs (comma separated)" 
-                                style={{ background: 'rgba(255,255,255,0.8)' }}
                              />
-                             <small style={{ color: 'var(--text-secondary)' }}>
-                                For this demo, manually enter User IDs. In production, this would be a contact list.
+                             <small style={{ color: 'var(--text-muted)', display: 'block', marginTop: '-0.5rem' }}>
+                                *For demo, manually enter IDs.
                              </small>
                         </div>
 
-                        <button type="submit" style={{ marginTop: '1rem', padding: '1rem', fontSize: '1.1rem' }}>Save Expense</button>
+                        <button type="submit" style={{ marginTop: '1rem', padding: '1.2rem' }}>Save Expense</button>
                     </form>
                 </div>
             </div>

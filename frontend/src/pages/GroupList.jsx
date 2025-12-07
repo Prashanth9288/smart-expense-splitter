@@ -58,51 +58,52 @@ const GroupList = () => {
   };
 
   return (
-    <div className="animate-fade-in">
+    <div className="animate-fade-in flex-col" style={{ gap: '2rem' }}>
       <div className="header">
           <span className="logo">Split Clone</span>
           <div className="flex items-center">
-             <div style={{ marginRight: '1rem', textAlign: 'right' }}>
-                <div style={{ fontSize: '0.9rem', fontWeight: '600' }}>{user?.displayName}</div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Free Plan</div>
+             <div style={{ textAlign: 'right' }}>
+                <div style={{ fontSize: '1rem', fontWeight: '700' }}>{user?.displayName}</div>
+                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Free Plan</div>
              </div>
-             <button onClick={logout} className="secondary" style={{ padding: '0.5rem 1rem', fontSize: '0.8rem' }}>Logout</button>
+             <button onClick={logout} className="secondary" style={{ padding: '0.6rem 1.2rem', fontSize: '0.85rem' }}>Logout</button>
           </div>
       </div>
       
-      <div className="container" style={{ padding: '0 2rem' }}>
+      <div className="container">
           <div className="glass-card stagger-1">
-              <h3 style={{ marginTop: 0 }}>Create New Group</h3>
-              <form onSubmit={createGroup} className="flex">
+              <h3>Create New Group</h3>
+              <form onSubmit={createGroup} className="flex" style={{ flexWrap: 'wrap' }}>
                 <input 
                   placeholder="Group Name (e.g. Trip to Vegas)" 
                   value={newGroupName} 
                   onChange={e => setNewGroupName(e.target.value)} 
-                  style={{ marginBottom: 0, flex: 1 }}
+                  style={{ marginBottom: 0, flex: '1 1 300px' }}
                 />
-                <button type="submit">Add Group</button>
+                <button type="submit" style={{ flex: '0 0 auto' }}>+ Add Group</button>
               </form>
           </div>
 
-          <h3 className="stagger-2" style={{ paddingLeft: '0.5rem' }}>Your Groups</h3>
-          {groups.length === 0 ? (
-              <div className="glass-card stagger-3" style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
-                 <p>No groups yet. Create one above!</p>
-              </div>
-          ) : (
-              <div className="stagger-3">
+          <div className="stagger-2">
+            <h3 style={{ marginBottom: '1.5rem', paddingLeft: '0.5rem' }}>Your Groups</h3>
+            {groups.length === 0 ? (
+                <div className="glass-card stagger-3" style={{ textAlign: 'center', color: 'var(--text-muted)', padding: '4rem' }}>
+                   <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🗂️</div>
+                   <p>No groups yet. Create one above to get started!</p>
+                </div>
+            ) : (
                 <ul className="grid-list">
-                    {groups.map(g => (
-                    <li key={g.id} className="glass-card" style={{ padding: '1.5rem', marginBottom: '1rem' }}>
-                        <Link to={`/groups/${g.id}`} className="flex justify-between items-center" style={{ width: '100%', color: 'inherit' }}>
-                            <span style={{ fontWeight: '600', fontSize: '1.1rem' }}>{g.name}</span>
-                            <span style={{ color: 'var(--primary)', fontWeight: 'bold' }}>View &rarr;</span>
+                    {groups.map((g, i) => (
+                    <li key={g.id} className="glass-card" style={{ padding: '0', display: 'flex', flexDirection: 'column', animationDelay: `${i * 0.1}s` }}>
+                        <Link to={`/groups/${g.id}`} style={{ padding: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', height: '100%' }}>
+                            <span style={{ fontWeight: '700', fontSize: '1.25rem' }}>{g.name}</span>
+                            <span style={{ color: 'var(--primary)', fontSize: '1.5rem' }}>&rarr;</span>
                         </Link>
                     </li>
                     ))}
                 </ul>
-              </div>
-          )}
+            )}
+          </div>
       </div>
     </div>
   );
